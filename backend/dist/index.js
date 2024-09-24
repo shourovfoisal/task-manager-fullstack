@@ -4,10 +4,17 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import { logger } from "./middlewares/logger.js";
 import { router as authRouter } from "./routes/auth.js";
+import { router as userRouter } from "./routes/users.js";
 dotenv.config();
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type"); // To use authorization as well, we can use "Content-Type, Authorization" as the second argument
+    next();
+});
 app.use(logger);
 const authorize = (req, res, next) => {
     const token = req.headers["authorization"];
@@ -20,7 +27,7 @@ const authorize = (req, res, next) => {
     }
     try {
         const parsedValue = jwt.verify(token, JwtSecret);
-        req.user = parsedValue;
+        // req.user = parsedValue;
         next();
     }
     catch (error) {
@@ -28,7 +35,8 @@ const authorize = (req, res, next) => {
     }
 };
 app.use("/auth", authRouter);
-const port = (_a = process.env.PORT) !== null && _a !== void 0 ? _a : 3000;
+app.use("/users", userRouter);
+const port = (_a = process.env.PORT) !== null && _a !== void 0 ? _a : 4000;
 app.listen(port, () => {
     console.log("Server started");
 });

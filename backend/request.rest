@@ -1,0 +1,20 @@
+# Test api to check if the server is working
+GET http://localhost:4000/test
+
+### Get all the users
+GET http://localhost:4000/users
+
+### Get a single user
+GET http://localhost:4000/users/1
+
+### Create a user
+POST http://localhost:4000/users
+Content-Type: application/json
+
+{
+  "name": "From Rest Client",
+  "email": "from@restclient.com"
+}
+
+### Delete a user
+DELETE http://localhost:4000/users/3
