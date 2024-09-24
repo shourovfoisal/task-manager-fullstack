@@ -27,7 +27,7 @@ const authorize = (req, res, next) => {
     }
     try {
         const parsedValue = jwt.verify(token, JwtSecret);
-        req.user = parsedValue;
+        req.user = parsedValue.userSignInfo;
         next();
     }
     catch (error) {
@@ -35,8 +35,7 @@ const authorize = (req, res, next) => {
     }
 };
 app.use("/auth", authRouter);
-// app.use("/users", authorize, userRouter);
-app.use("/users", userRouter);
+app.use("/users", authorize, userRouter);
 const port = (_a = process.env.PORT) !== null && _a !== void 0 ? _a : 4000;
 app.listen(port, () => {
     console.log("Server started");

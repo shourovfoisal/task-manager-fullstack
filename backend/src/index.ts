@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import { logger } from "./middlewares/logger.js";
 import { router as authRouter } from "./routes/auth.js";
 import { router as userRouter } from "./routes/users.js";
+import { ParsedJwtValue } from "./types/appTypes.js";
 
 dotenv.config();
 
@@ -31,8 +32,11 @@ const authorize: RequestHandler = (req, res, next) => {
   }
 
   try {
-    const parsedValue = jwt.verify(token, JwtSecret);
-    req.user = parsedValue;
+    const parsedValue: ParsedJwtValue = jwt.verify(
+      token,
+      JwtSecret
+    ) as ParsedJwtValue;
+    req.user = parsedValue.userSignInfo;
     next();
   } catch (error) {
     return res.status(400).send("Invalid token");
@@ -40,8 +44,7 @@ const authorize: RequestHandler = (req, res, next) => {
 };
 
 app.use("/auth", authRouter);
-// app.use("/users", authorize, userRouter);
-app.use("/users", userRouter);
+app.use("/users", authorize, userRouter);
 
 const port = process.env.PORT ?? 4000;
 app.listen(port, () => {
