@@ -9,7 +9,13 @@ export const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const users = await prisma.user.findMany();
-    res.status(200).json(users);
+
+    res.status(200).json(
+      users.map((eachUser) => {
+        const { id, password, ...rest } = eachUser;
+        return rest;
+      })
+    );
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -23,7 +29,12 @@ router.get("/:id", async (req, res) => {
         id: Number(req.params.id),
       },
     });
-    res.status(200).json(user);
+    if (user) {
+      const { id, password, ...rest } = user;
+      res.status(200).json({ rest });
+    } else {
+      res.status(204);
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

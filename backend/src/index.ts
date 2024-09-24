@@ -1,3 +1,4 @@
+import cors from "cors";
 import dotenv from "dotenv";
 import type { RequestHandler } from "express";
 import express from "express";
@@ -19,6 +20,10 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Expose-Headers", "Authorization");
   next();
 });
+const corsOption = {
+  origin: ["http://localhost:5173"],
+};
+app.use(cors(corsOption));
 app.use(logger);
 
 const authorize: RequestHandler = (req, res, next) => {
@@ -34,7 +39,7 @@ const authorize: RequestHandler = (req, res, next) => {
 
   try {
     const parsedValue: ParsedJwtValue = jwt.verify(
-      token,
+      token.substring(7), // omitting the `Bearer ` part
       JwtSecret
     ) as ParsedJwtValue;
     req.user = parsedValue.userSignInfo;

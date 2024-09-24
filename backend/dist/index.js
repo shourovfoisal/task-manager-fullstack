@@ -1,4 +1,5 @@
 var _a;
+import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import jwt from "jsonwebtoken";
@@ -16,6 +17,10 @@ app.use((req, res, next) => {
     res.setHeader("Access-Control-Expose-Headers", "Authorization");
     next();
 });
+const corsOption = {
+    origin: ["http://localhost:5173"],
+};
+app.use(cors(corsOption));
 app.use(logger);
 const authorize = (req, res, next) => {
     const token = req.headers["authorization"];
@@ -27,7 +32,8 @@ const authorize = (req, res, next) => {
         return res.status(401).send("Unauthorized");
     }
     try {
-        const parsedValue = jwt.verify(token, JwtSecret);
+        const parsedValue = jwt.verify(token.substring(7), // omitting the `Bearer ` part
+        JwtSecret);
         req.user = parsedValue.userSignInfo;
         next();
     }
