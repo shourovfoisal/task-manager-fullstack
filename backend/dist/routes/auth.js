@@ -57,7 +57,7 @@ router.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, functio
                 password: hashedPassword,
             },
         });
-        res.status(201).json(user);
+        res.status(201).json({ id: user.id, name: user.name });
     }
     catch (error) {
         res.status(500).json({ message: error.message });

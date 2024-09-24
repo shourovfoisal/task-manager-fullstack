@@ -4,7 +4,7 @@ import { useUserContext } from "../hooks/useUserContext";
 const AuthOutlet = () => {
   const { user } = useUserContext();
 
-  return user !== null ? <Outlet /> : <Navigate to="/login" />;
+  return user !== null ? <Outlet /> : <Navigate to="/signin" />;
 };
 
 export default AuthOutlet;

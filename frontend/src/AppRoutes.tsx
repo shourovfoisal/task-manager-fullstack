@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Login } from "./auth";
+import { Signin, Signup } from "./components/auth";
 import { Dashboard } from "./components/dashboard";
 import { Fallback } from "./components/fallback";
 import { AppOutlet, AuthOutlet } from "./outlets";
@@ -15,7 +15,8 @@ export const AppRoutes = () => {
           element: <AuthOutlet />,
           children: [{ path: "/dashboard", element: <Dashboard /> }],
         },
-        { path: "/login", element: <Login /> },
+        { path: "/signin", element: <Signin /> },
+        { path: "/signup", element: <Signup /> },
       ],
     },
   ]);
