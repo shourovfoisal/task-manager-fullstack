@@ -1,5 +1,5 @@
 ### Create a user
-POST http://localhost:4000/users
+POST http://localhost:4000/auth/register
 Content-Type: application/json
 
 {
@@ -20,11 +20,11 @@ Content-Type: application/json
 
 ### Get all the users
 GET http://localhost:4000/users
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyU2lnbkluZm8iOnsibmFtZSI6IkZyb20gUmVzdCBDbGllbnQiLCJlbWFpbCI6ImZyb21AcmVzdGNsaWVudC5jb20ifSwiaWF0IjoxNzI3MTgxODE0LCJleHAiOjE3MjcxODU0MTR9.zkF6BFWB59DPHVVgfAf-GPDMpFa1yRHqWSn0UgcS1nQ
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyU2lnbkluZm8iOnsibmFtZSI6IkZyb20gUmVzdCBDbGllbnQiLCJlbWFpbCI6ImZyb21AcmVzdGNsaWVudC5jb20ifSwiaWF0IjoxNzI3MTkxNzMwLCJleHAiOjE3MjcxOTUzMzB9.VyD2N7NWfSvC8hUxlZo1wVtyQfcCqbnwTseh-xogj_E
 
 ### Get a single user
-GET http://localhost:4000/users/3
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyU2lnbkluZm8iOnsibmFtZSI6IkZyb20gUmVzdCBDbGllbnQiLCJlbWFpbCI6ImZyb21AcmVzdGNsaWVudC5jb20ifSwiaWF0IjoxNzI3MTgxODE0LCJleHAiOjE3MjcxODU0MTR9.zkF6BFWB59DPHVVgfAf-GPDMpFa1yRHqWSn0UgcS1nQ
+GET http://localhost:4000/users/1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyU2lnbkluZm8iOnsibmFtZSI6IkZyb20gUmVzdCBDbGllbnQiLCJlbWFpbCI6ImZyb21AcmVzdGNsaWVudC5jb20ifSwiaWF0IjoxNzI3MTkxNzMwLCJleHAiOjE3MjcxOTUzMzB9.VyD2N7NWfSvC8hUxlZo1wVtyQfcCqbnwTseh-xogj_E
 
 ### Delete a user
 DELETE http://localhost:4000/users/3

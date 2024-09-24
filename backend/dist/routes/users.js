@@ -8,7 +8,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
 import express from "express";
 const prisma = new PrismaClient();
 export const router = express.Router();
@@ -36,24 +35,6 @@ router.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(500).json({ message: error.message });
     }
 }));
-// create a user
-router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const hashedPassword = yield bcrypt.hash(req.body.password, 10);
-        const user = yield prisma.user.create({
-            data: {
-                name: req.body.name,
-                email: req.body.email,
-                username: req.body.username,
-                password: hashedPassword,
-            },
-        });
-        res.status(201).json(user);
-    }
-    catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-}));
 // update user
 router.put("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -64,6 +45,8 @@ router.put("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             data: {
                 name: req.body.name,
                 email: req.body.email,
+                password: req.body.password,
+                username: req.body.username,
             },
         });
         res.status(200).json(user);

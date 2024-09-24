@@ -41,3 +41,22 @@ router.post("/login", async (req, res) => {
     }
   } catch (error) {}
 });
+
+// create a user
+router.post("/register", async (req, res) => {
+  try {
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+    const user = await prisma.user.create({
+      data: {
+        name: req.body.name,
+        email: req.body.email,
+        username: req.body.username,
+        password: hashedPassword,
+      },
+    });
+    res.status(201).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});

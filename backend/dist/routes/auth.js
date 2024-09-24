@@ -45,3 +45,21 @@ router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
     catch (error) { }
 }));
+// create a user
+router.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const hashedPassword = yield bcrypt.hash(req.body.password, 10);
+        const user = yield prisma.user.create({
+            data: {
+                name: req.body.name,
+                email: req.body.email,
+                username: req.body.username,
+                password: hashedPassword,
+            },
+        });
+        res.status(201).json(user);
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}));
