@@ -27,7 +27,7 @@ const authorize = (req, res, next) => {
     }
     try {
         const parsedValue = jwt.verify(token, JwtSecret);
-        // req.user = parsedValue;
+        req.user = parsedValue;
         next();
     }
     catch (error) {
