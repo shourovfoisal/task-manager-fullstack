@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
 import express from "express";
 const prisma = new PrismaClient();
 export const router = express.Router();
@@ -38,10 +39,13 @@ router.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 // create a user
 router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const hashedPassword = yield bcrypt.hash(req.body.password, 10);
         const user = yield prisma.user.create({
             data: {
                 name: req.body.name,
                 email: req.body.email,
+                username: req.body.username,
+                password: hashedPassword,
             },
         });
         res.status(201).json(user);

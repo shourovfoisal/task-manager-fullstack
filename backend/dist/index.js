@@ -35,6 +35,7 @@ const authorize = (req, res, next) => {
     }
 };
 app.use("/auth", authRouter);
+// app.use("/users", authorize, userRouter);
 app.use("/users", userRouter);
 const port = (_a = process.env.PORT) !== null && _a !== void 0 ? _a : 4000;
 app.listen(port, () => {

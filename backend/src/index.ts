@@ -40,6 +40,7 @@ const authorize: RequestHandler = (req, res, next) => {
 };
 
 app.use("/auth", authRouter);
+// app.use("/users", authorize, userRouter);
 app.use("/users", userRouter);
 
 const port = process.env.PORT ?? 4000;
