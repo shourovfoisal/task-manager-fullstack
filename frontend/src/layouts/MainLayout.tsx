@@ -7,7 +7,7 @@ const MainLayout = ({ children }: Props) => {
   const { user } = useUserContext();
 
   return (
-    <div className="bg-gray-200 h-screen">
+    <div className="bg-gray-800 min-h-screen text-theme-text-black">
       <div className="bg-blue-500 py-6 px-7">
         <div className="flex justify-between">
           <div className="space-x-5">
@@ -39,7 +39,7 @@ const MainLayout = ({ children }: Props) => {
           </div>
         </div>
       </div>
-      <div>{children}</div>
+      <div className="container px-5 py-24 mx-auto">{children}</div>
     </div>
   );
 };
