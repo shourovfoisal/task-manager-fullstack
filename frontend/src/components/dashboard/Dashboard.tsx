@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { TaskFormType } from "../../global/formSchemas";
 import { FilterSliceStateType } from "../../global/globalTypes";
 import {
   priorityLabelMapper,
@@ -69,12 +70,31 @@ const Dashboard = () => {
     }),
   ];
 
-  const [tableData, setTableData] = useState([]);
+  const [tableData, setTableData] = useState<TaskFormType[]>([]);
 
   async function getAllTasks() {
     const response = await axios.get("/tasks");
-    const tasks = response.data;
-    setTableData(tasks);
+    const tasks: TaskFormType[] = response.data;
+    let filteredTasks = [...tasks];
+
+    // Filtering based on the global preferences
+    if (filter?.dueDate) {
+      filteredTasks = filteredTasks?.filter(
+        (eachTask) => eachTask?.dueDate === filter?.dueDate
+      );
+    }
+    if (filter?.priority) {
+      filteredTasks = filteredTasks?.filter(
+        (eachTask) => eachTask?.priority === filter?.priority
+      );
+    }
+    if (filter?.status) {
+      filteredTasks = filteredTasks?.filter(
+        (eachTask) => eachTask?.status === filter?.status
+      );
+    }
+
+    setTableData(filteredTasks);
   }
 
   useEffect(() => {
