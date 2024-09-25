@@ -2,21 +2,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import * as yup from "yup";
+import { SignupFormType, signupSchema } from "../../../global/formSchemas";
 import { Button } from "../../base";
 import { AppInput } from "../../base/reactHookFormComponents";
 
 const Signup = () => {
   const navigate = useNavigate();
-
-  const signupSchema = yup.object().shape({
-    name: yup.string().required("Name is required"),
-    email: yup.string().email("Invalid email").required("Email is required"),
-    username: yup.string().required("Username is required"),
-    password: yup.string().required("Password is required"),
-  });
-
-  type SignupFormType = yup.InferType<typeof signupSchema>;
 
   const { control, handleSubmit } = useForm({
     mode: "all",

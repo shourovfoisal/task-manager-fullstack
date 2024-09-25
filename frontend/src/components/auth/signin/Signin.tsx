@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import * as yup from "yup";
+import { LoginFormType, loginSchema } from "../../../global/formSchemas";
 import { useUserContext } from "../../../hooks/useUserContext";
 import { handleSetToken } from "../../../utils/handleJwtLocalstorage";
 import { Button } from "../../base";
@@ -12,13 +12,6 @@ import { AppInput } from "../../base/reactHookFormComponents";
 const Signin = () => {
   const navigate = useNavigate();
   const { user, setUser } = useUserContext();
-
-  const loginSchema = yup.object().shape({
-    username: yup.string().required("Username is required"),
-    password: yup.string().required("Password is required"),
-  });
-
-  type LoginFormType = yup.InferType<typeof loginSchema>;
 
   const { control, handleSubmit } = useForm({
     mode: "all",
