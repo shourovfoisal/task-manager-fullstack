@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { taskFormSchema, TaskFormType } from "../../global/formSchemas";
 import { priorityDropdown, statusDropdown } from "../../staticData/staticData";
 import { Button } from "../base";
@@ -11,12 +11,9 @@ import {
   AppSelect,
 } from "../base/reactHookFormComponents";
 
-type Props = {
-  taskForUpdate: TaskFormType | null;
-};
-
-const TaskDetails = ({ taskForUpdate }: Props) => {
+const TaskDetails = () => {
   const navigate = useNavigate();
+  const { state: taskForUpdate } = useLocation();
 
   const { control, handleSubmit } = useForm({
     mode: "all",
@@ -37,8 +34,19 @@ const TaskDetails = ({ taskForUpdate }: Props) => {
     }
   }
 
+  async function updateTask(data: TaskFormType) {
+    const response = await axios.put(`/tasks/${taskForUpdate?.id}`, data);
+    if (response.status === 200) {
+      navigate("/dashboard");
+    }
+  }
+
   function onSubmit(formData: TaskFormType) {
-    createTask(formData);
+    if (taskForUpdate) {
+      updateTask(formData);
+    } else {
+      createTask(formData);
+    }
   }
 
   return (
