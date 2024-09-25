@@ -5,6 +5,7 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import { logger } from "./middlewares/logger.js";
 import { router as authRouter } from "./routes/auth.js";
+import { router as taskRouter } from "./routes/tasks.js";
 import { router as userRouter } from "./routes/users.js";
 dotenv.config();
 const app = express();
@@ -43,6 +44,7 @@ const authorize = (req, res, next) => {
 };
 app.use("/auth", authRouter);
 app.use("/users", authorize, userRouter);
+app.use("/tasks", authorize, taskRouter);
 const port = (_a = process.env.PORT) !== null && _a !== void 0 ? _a : 4000;
 app.listen(port, () => {
     console.log("Server started");

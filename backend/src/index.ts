@@ -5,6 +5,7 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import { logger } from "./middlewares/logger.js";
 import { router as authRouter } from "./routes/auth.js";
+import { router as taskRouter } from "./routes/tasks.js";
 import { router as userRouter } from "./routes/users.js";
 import { ParsedJwtValue } from "./types/appTypes.js";
 
@@ -51,6 +52,7 @@ const authorize: RequestHandler = (req, res, next) => {
 
 app.use("/auth", authRouter);
 app.use("/users", authorize, userRouter);
+app.use("/tasks", authorize, taskRouter);
 
 const port = process.env.PORT ?? 4000;
 app.listen(port, () => {

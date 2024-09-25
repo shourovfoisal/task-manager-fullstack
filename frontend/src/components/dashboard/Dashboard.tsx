@@ -16,11 +16,7 @@ const Dashboard = () => {
     getAllUsers();
   }, []);
 
-  return (
-    <div>
-      <div className="bg-gray-50 py-10 rounded-lg"></div>
-    </div>
-  );
+  return <div className="bg-gray-50 py-10 rounded-lg"></div>;
 };
 
 export default Dashboard;

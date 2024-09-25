@@ -1,5 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import axios from "axios";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { taskFormSchema, TaskFormType } from "../../global/formSchemas";
 import { priorityDropdown, statusDropdown } from "../../staticData/staticData";
 import { Button } from "../base";
@@ -14,6 +16,8 @@ type Props = {
 };
 
 const TaskDetails = ({ taskForUpdate }: Props) => {
+  const navigate = useNavigate();
+
   const { control, handleSubmit } = useForm({
     mode: "all",
     resolver: yupResolver(taskFormSchema),
@@ -26,8 +30,15 @@ const TaskDetails = ({ taskForUpdate }: Props) => {
     },
   });
 
+  async function createTask(data: TaskFormType) {
+    const response = await axios.post("/tasks", data);
+    if (response.status === 201) {
+      navigate("/dashboard");
+    }
+  }
+
   function onSubmit(formData: TaskFormType) {
-    console.log("🚀 ~ onSubmit ~ formData:", formData);
+    createTask(formData);
   }
 
   return (

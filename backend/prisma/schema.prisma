@@ -21,3 +21,12 @@ model User {
   username String
   password String
 }
+
+model Task {
+  id Int @id @default(autoincrement())
+  title String
+  description String
+  dueDate String
+  priority String
+  status String
+}
