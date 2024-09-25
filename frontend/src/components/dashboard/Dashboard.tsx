@@ -50,7 +50,6 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const filter = useSelector(getAllFilters);
   const tasks = useSelector(getAllTasksFromStore);
-  console.log("🚀 ~ Dashboard ~ tasks:", tasks);
 
   const TaskListColumns = [
     columnHelper.accessor("title", {

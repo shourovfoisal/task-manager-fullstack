@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { settingsFormSchema, SettingsFormType } from "../../global/formSchemas";
 import { FilterSliceStateType } from "../../global/globalTypes";
-import { setAll } from "../../redux/slices/filterSlice";
+import { getAllFilters, setAll } from "../../redux/slices/filterSlice";
 import { priorityDropdown, statusDropdown } from "../../staticData/staticData";
 import { Button } from "../base";
 import { AppDateInput, AppSelect } from "../base/reactHookFormComponents";
@@ -13,8 +13,7 @@ import { AppDateInput, AppSelect } from "../base/reactHookFormComponents";
 const Settings = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { filter } = useSelector<FilterSliceStateType>((state) => state.filter);
-  console.log("🚀 ~ Settings ~ filter:", filter);
+  const filter = useSelector<FilterSliceStateType>(getAllFilters);
 
   const { control, handleSubmit, reset, setValue } = useForm({
     mode: "all",
