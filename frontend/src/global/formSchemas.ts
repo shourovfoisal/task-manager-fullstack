@@ -37,3 +37,14 @@ export const taskFormSchema = yup.object().shape({
 });
 
 export type TaskFormType = yup.InferType<typeof taskFormSchema>;
+
+export const settingsFormSchema = yup.object().shape({
+  dueDate: yup.string().notRequired(),
+  priority: yup.string().oneOf(["low", "medium", "high", ""]).notRequired(),
+  status: yup
+    .string()
+    .oneOf(["pending", "in_progress", "completed", ""])
+    .notRequired(),
+});
+
+export type SettingsFormType = yup.InferType<typeof settingsFormSchema>;

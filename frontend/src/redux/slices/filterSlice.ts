@@ -22,8 +22,12 @@ export const filterSlice = createSlice({
     setStatus: (state, action) => {
       state.filter.status = action.payload;
     },
+    setAll: (state, action) => {
+      state.filter = action.payload;
+    },
   },
 });
 
-export const { setPriority, setDueDate, setStatus } = filterSlice.actions;
+export const { setPriority, setDueDate, setStatus, setAll } =
+  filterSlice.actions;
 export default filterSlice.reducer;
