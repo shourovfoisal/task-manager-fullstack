@@ -1,10 +1,11 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { TaskFormType } from "../../global/formSchemas";
-import { FilterSliceStateType } from "../../global/globalTypes";
+import { getAllFilters } from "../../redux/slices/filterSlice";
+import { fetchTasks, getAllTasksFromStore } from "../../redux/slices/taskSlice";
 import {
   priorityLabelMapper,
   statusLabelMapper,
@@ -13,11 +14,13 @@ import AppTable from "../base/AppTable";
 
 const columnHelper = createColumnHelper();
 
-function TaskListColumnAction(cell, getAllTasks: () => void) {
+function TaskListColumnAction(cell) {
+  const dispatch = useDispatch();
+
   async function handleTaskDelete(taskId: number) {
     const response = await axios.delete(`/tasks/${taskId}`);
     if (response.status === 200) {
-      getAllTasks();
+      dispatch(fetchTasks());
     }
   }
 
@@ -44,7 +47,10 @@ function TaskListColumnAction(cell, getAllTasks: () => void) {
 }
 
 const Dashboard = () => {
-  const { filter } = useSelector<FilterSliceStateType>((state) => state.filter);
+  const dispatch = useDispatch();
+  const filter = useSelector(getAllFilters);
+  const tasks = useSelector(getAllTasksFromStore);
+  console.log("🚀 ~ Dashboard ~ tasks:", tasks);
 
   const TaskListColumns = [
     columnHelper.accessor("title", {
@@ -66,40 +72,39 @@ const Dashboard = () => {
     }),
     columnHelper.accessor("id", {
       header: () => <span>Action</span>,
-      cell: (cell) => TaskListColumnAction(cell, getAllTasks),
+      cell: (cell) => TaskListColumnAction(cell),
     }),
   ];
 
   const [tableData, setTableData] = useState<TaskFormType[]>([]);
 
-  async function getAllTasks() {
-    const response = await axios.get("/tasks");
-    const tasks: TaskFormType[] = response.data;
-    let filteredTasks = [...tasks];
-
-    // Filtering based on the global preferences
-    if (filter?.dueDate) {
-      filteredTasks = filteredTasks?.filter(
-        (eachTask) => eachTask?.dueDate === filter?.dueDate
-      );
-    }
-    if (filter?.priority) {
-      filteredTasks = filteredTasks?.filter(
-        (eachTask) => eachTask?.priority === filter?.priority
-      );
-    }
-    if (filter?.status) {
-      filteredTasks = filteredTasks?.filter(
-        (eachTask) => eachTask?.status === filter?.status
-      );
-    }
-
-    setTableData(filteredTasks);
-  }
+  useEffect(() => {
+    dispatch(fetchTasks());
+  }, []);
 
   useEffect(() => {
-    getAllTasks();
-  }, []);
+    if (tasks?.length > 0) {
+      let filteredTasks: TaskFormType[] = tasks;
+
+      // Filtering based on the global preferences
+      if (filter?.dueDate) {
+        filteredTasks = filteredTasks?.filter(
+          (eachTask) => eachTask?.dueDate === filter?.dueDate
+        );
+      }
+      if (filter?.priority) {
+        filteredTasks = filteredTasks?.filter(
+          (eachTask) => eachTask?.priority === filter?.priority
+        );
+      }
+      if (filter?.status) {
+        filteredTasks = filteredTasks?.filter(
+          (eachTask) => eachTask?.status === filter?.status
+        );
+      }
+      setTableData(filteredTasks);
+    }
+  }, [tasks]);
 
   return (
     <div className="bg-gray-600 py-10 rounded-lg p-4">

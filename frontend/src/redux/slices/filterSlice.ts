@@ -28,6 +28,8 @@ export const filterSlice = createSlice({
   },
 });
 
+export const getAllFilters = (state) => state.filter.filter;
+
 export const { setPriority, setDueDate, setStatus, setAll } =
   filterSlice.actions;
 export default filterSlice.reducer;

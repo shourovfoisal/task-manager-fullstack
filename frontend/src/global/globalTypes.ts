@@ -1,3 +1,5 @@
+import { TaskFormType } from "./formSchemas";
+
 export type PriorityType = "low" | "medium" | "high";
 export type StatusType = "pending" | "in_progress" | "completed";
 
@@ -7,4 +9,8 @@ export type FilterSliceStateType = {
     dueDate: string | null;
     status: StatusType | null;
   };
+};
+
+export type TaskSliceStateType = {
+  tasks: TaskFormType[];
 };
