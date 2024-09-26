@@ -2,7 +2,7 @@
 In the root directory containing `compose.yaml`:
 
 1. Place a .env file in the `backend` folder with the following configuration
-   ```
+   ```bash
      JWT_SECRET=my_secret
      PORT=4000
      DATABASE_URL=postgresql://postgres:postgres@localhost:5432/taskmanager
