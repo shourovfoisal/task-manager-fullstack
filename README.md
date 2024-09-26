@@ -1,9 +1,16 @@
 **To run the project**  
 In the root directory containing `compose.yaml`:
 
-1. Run `docker compose build`
-2. Then run `docker compose up -d`
-3. Finally when the backend container is up, run `docker exec -it backend npx prisma migrate dev --name init` to sync the database.
+1. Place a .env file in the `backend` folder with the following configuration
+   ```
+     JWT_SECRET=my_secret
+     PORT=4000
+     DATABASE_URL=postgresql://postgres:postgres@localhost:5432/taskmanager
+     DATABASE_URL_WITH_SCHEMA=${DATABASE_URL}?schema=public
+   ```
+2. Run `docker compose build`
+3. Then run `docker compose up -d`
+4. Finally when the backend container is up, run `docker exec -it backend npx prisma migrate dev --name init` to sync the database.
 
 **To create a user and login**  
 When the project is up and running:
